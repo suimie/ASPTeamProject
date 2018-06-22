@@ -1,0 +1,45 @@
+﻿@model RecipeWorld.ViewModel.RecipeFormViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+@if (Model.Recipe.Id == 0)
+{
+    <h2>Write new recipe</h2>
+}
+else
+{
+    <h2>Update recipe</h2>
+}
+
+@using (Html.BeginForm("Save", "WriteRecipe"))
+{
+    @Html.ValidationSummary(true, "Please fix the form")
+    <div class="row">
+        <div class="row">
+            <div class="col col-sm-4">
+                @Html.LabelFor(b => b.Recipe.CreateDate)
+            </div>
+            <div class="col col-sm-4">
+                @Html.LabelFor(b => b.Recipe.ModifiedDate)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-sm-4">
+                @Html.TextBoxFor(b => b.Recipe.CreateDate, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+            <div class="col col-sm-4">
+                @Html.TextBoxFor(b => b.Recipe.ModifiedDate, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @Html.LabelFor(b => b.Recipe.Title)
+        @Html.TextBoxFor(b => b.Recipe.Title, new { @class = "form-control" })
+        @Html.ValidationMessageFor(b => b.Recipe.Title)
+    </div>
+    @Html.HiddenFor(b => b.Recipe.Id)
+    <br />
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">Save</button>
+}
