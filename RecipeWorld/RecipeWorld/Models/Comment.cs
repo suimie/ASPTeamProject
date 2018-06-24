@@ -21,9 +21,8 @@ namespace RecipeWorld.Models
 
         public DateTime ModifiedDate { get; set; } = DateTime.Now;
 
-        public User User { get; set; }
         [Required]
-        public int UserId { get; set; }
+        public String Email { get; set; }
 
         [Required]
         public String Contents { get; set; }

@@ -20,7 +20,6 @@ namespace RecipeWorld.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<User> Users { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<RecipeFile> RecipeFiles { get; set; }

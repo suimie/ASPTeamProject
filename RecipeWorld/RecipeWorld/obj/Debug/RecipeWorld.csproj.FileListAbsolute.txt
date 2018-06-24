@@ -118,5 +118,5 @@ C:\Users\suimi\JAC\GitDirectory\ASPTeamProject\RecipeWorld\RecipeWorld\obj\Debug
 C:\Users\suimi\JAC\GitDirectory\ASPTeamProject\RecipeWorld\RecipeWorld\obj\Debug\RecipeWorld.csproj.CopyComplete
 C:\Users\suimi\JAC\GitDirectory\ASPTeamProject\RecipeWorld\RecipeWorld\obj\Debug\RecipeWorld.dll
 C:\Users\suimi\JAC\GitDirectory\ASPTeamProject\RecipeWorld\RecipeWorld\obj\Debug\RecipeWorld.pdb
-C:\Users\suimi\JAC\GitDirectory\ASPTeamProject\RecipeWorld\RecipeWorld\obj\Debug\RecipeWorld.Migrations.InitialMigration.resources
+C:\Users\suimi\JAC\GitDirectory\ASPTeamProject\RecipeWorld\RecipeWorld\obj\Debug\RecipeWorld.Migrations.InitalMigration.resources
 C:\Users\suimi\JAC\GitDirectory\ASPTeamProject\RecipeWorld\RecipeWorld\obj\Debug\RecipeWorld.csproj.GenerateResource.cache

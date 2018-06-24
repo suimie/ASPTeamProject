@@ -18,5 +18,6 @@ namespace RecipeWorld.Models
         [Required]
         [MaxLength(255)]
         public String ImgFile { get; set; }
+        public HttpPostedFileBase ImageFile { get; set; }
     }
 }
