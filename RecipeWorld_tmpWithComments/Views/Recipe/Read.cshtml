@@ -1,0 +1,145 @@
+﻿@model RecipeWorld.ViewModels.ReadRecipeViewModel
+
+@{
+    ViewBag.Title = "Read";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    input,
+    select,
+    textarea {
+        max-width: 100%;
+    }
+
+    .recipe-image-part {
+        width: 100%;
+        margin: auto;
+    }
+
+    .col-sm-4 img {
+        width: 90%;
+    }
+
+    .recipe-ingredients-part {
+        margin: auto;
+        border: 1px solid
+    }
+
+    .recipe-paragraph {
+        margin-top: 20px;
+    }
+</style>
+<h2>@Model.Recipe.Title</h2>
+
+<div style="padding:10px;">
+    <hr />
+    <div class="row">
+        @foreach (var RecipeFile in Model.RecipeFiles)
+        {
+            <div class="col-sm-4" style="margin:auto;margin-bottom:10px">
+                <img src="~/RecipeImageFiles/@RecipeFile.ImgFile" />
+            </div>
+        }
+    </div>
+    @if (!string.IsNullOrWhiteSpace(Model.Recipe.Ingredients))
+    {
+        var lines = Model.Recipe.Ingredients.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+        <div class="panel panel-warning justify-content-md-center" style="margin:auto;margin-top:50px;margin-bottom:50px;width:90%;">
+            <div class="panel-heading col-sm6">
+                <h3 class="panel-title">Ingredients</h3>
+            </div>
+            <div class="panel-body col-sm6">
+                <ul>
+                    @foreach (var line in lines)
+                    {
+                        <li>@line</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+
+
+    @if (!string.IsNullOrWhiteSpace(Model.Recipe.Contents))
+    {
+        var lines = Model.Recipe.Contents.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+        <div style="margin-bottom:50px;">
+            @foreach (var line in lines)
+            {
+                <div class="recipe-paragraph">@line</div>
+            }
+        </div>
+    }
+</div>
+@if (HttpContext.Current.User.Identity.Name == "admin@recipeworld.com" || HttpContext.Current.User.Identity.Name == Model.Recipe.Email)
+{
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Recipe.Id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = Model.Recipe.Id }, new { @onclick = "return confirm('Are you sure you want to delete this recipe ? ')" }) |
+        @Html.ActionLink("Back to List", "Index", "Recipe", new { Page = ViewBag.Page + 1 })
+    </p>
+}
+else
+{
+    <p>
+        @Html.ActionLink("Back to List", "Index", "Recipe", new { Page = ViewBag.Page + 1 })
+    </p>
+
+}
+
+    <div class="comments" id="comment_div">
+        <div class="panel panel-primary justify-content-md-center" style="margin:auto;margin-top:50px;margin-bottom:50px;width:90%;">
+            <div class="panel-heading col-sm6">
+                <h3 class="panel-title">Comments</h3>
+            </div>
+            <div class="panel-body col-sm6">
+                @Html.Action("NewComments", new { RecipeId = Model.Recipe.Id, ParentArticleId = Model.RecipeComment.ParentArticleId })
+                @if (Model.RecipeCommentsCount > 0)
+                {
+                    @Html.Action("CommentsIndex", new { id = Model.Recipe.Id })
+                }
+            </div>
+        </div>
+    </div>
+
+<script>
+    function save_comment(articleId, parentId, elementId) {
+        var contentsElement = document.getElementById(elementId);
+
+        if (contentsElement.value === "") {
+            window.alert("내용을 입력한 후 등록하세요.");
+            return;
+        }
+        var formdata = new FormData();
+        formdata.append("articleId", articleId);
+        formdata.append("parentId", parentId);
+        formdata.append("contents", contentsElement.value);
+
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("comment_div").innerHTML = this.responseText;
+            }
+        };
+        //xhttp.open("GET", "../index.php?content=catalog_page&category=&brand=&page=2", true);
+        xhttp.open("POST", "contents/comment_div.php?");
+
+        xhttp.send(formdata);
+    }
+
+    function delete_comment(articleId, commentId, parentId) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("comment_div").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", "contents/comment_div.php?action=delete_comment&articleId=" + articleId + "&commentId=" + commentId + "&parentId=" + parentId, true);
+
+        xhttp.send();
+    }
+</script>
